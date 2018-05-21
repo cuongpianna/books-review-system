@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <!--Content Left-->
+            <div class="col-7">
+
+                <!--Begin of .profile-->
+                <div class="row profile">
+                    <div class="col-3">
+                        <img src="{{ profile.photo.url }}" class="img-fluid" alt="" style="height: 180px">
+                    </div>
+                    <div class="col-9">
+                        <h3 style="border-bottom: 1px solid #d8d8d8;color: #382110" class="row">{{ user.username }}</h3>
+                        <div class="row">
+                            <h6 style="color:#382110;font-weight: 600" class="col-4">Giới tính: </h6>
+                            <div class="col-8">
+                                {{ profile.sex }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h6 style="color:#382110;font-weight: 600" class="col-4">Ngày sinh: </h6>
+                            <div class="col-8">{{ profile.date_of_birth }}</div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--End of .profile-->
+                <!--Begin of .review-list -->
+                <div class="row review-list" style="margin-top: 30px">
+                    <div class="col-12" style="border-bottom: 1px solid #d8d8d8">
+                        <h3 style="font-size: 17px;font-weight: 700;color: #382110">{{ user.username |title}} Bookshevels </h3>
+                    </div>
+                    <div class="col-12" style="padding-top:10px">
+                        <div class="row">
+                            <a href="{% url 'users:review-list' request.user.username 'reading' %}" class="col-6" style="color: #00635d">Đang đọc</a>
+                            <a href="{% url 'users:review-list' request.user.username 'read' %}" style="color: #00635d" class="col-6">Đã đọc</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--End of left-->
+            <div class="col-4"></div>
+        </div>
+    </div>
+{% endblock %}

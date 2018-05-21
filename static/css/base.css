@@ -1,0 +1,231 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI";
+}
+
+body{
+    background-color: #F4F4F4;
+}
+
+.wrap-menu a{
+    color: white;
+}
+
+.wrap-menu li{
+    margin-right: 10px;
+}
+
+.form-register{
+    padding: 20px;
+    border: 1px solid #6c757d;
+    background: white;
+    padding-bottom: 10px;
+    box-shadow: 1px 1px 1px 1px;
+}
+
+.form-register .row{
+    margin-bottom: 10px;
+}
+
+.form-register span{
+    color: red;
+}
+
+.thumb{
+    height: 180px;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    box-shadow: 1px 1px 1px 1px;
+}
+
+.book-item{
+    vertical-align: center;
+    height: auto;
+}
+
+.book-item .col-1{
+    border-left: 1px solid #e2e3e5;
+    margin-top: 40px;
+    border-top: 1px solid #e2e3e5;
+}
+
+.book-item .book-wrap{
+    height: 250px;
+}
+
+.book-item .info-header{
+    border-bottom: 1px solid #e2e3e5;
+    border-left: 1px solid #e2e3e5;
+}
+
+.book-info{
+    margin-top: 40px;
+    border: 1px solid #e2e3e5;
+    margin-left: -15px;
+    border-left: none;
+    border-bottom: none;
+    padding-top: 18px;
+}
+
+.book-info .title{
+    font-family: "Segoe UI";
+    font-size: 15px;
+}
+
+.book-info .author{
+    color: #6c757d; font-size: 14px;
+}
+
+
+.item-footer{
+    height: auto;
+    border-bottom: 1px solid #e2e3e5;
+    margin-right: 6%;
+    border-right: 1px solid #e2e3e5;
+    border-left: 1px solid #e2e3e5;
+
+}
+
+.book-views{
+    position: relative;
+}
+
+.book-detail{
+    position: absolute;
+    top: -15px;
+    left: -5px;
+    background-color: #1ba085;
+    border: #0b2e13;
+    padding: 4px 10px;
+    opacity: 0;
+    transition: 1s;
+}
+
+.book-item:hover .book-detail{
+    opacity: 1;
+}
+
+/*CSS FOR DETAILS PAGE*/
+
+.content-left{
+    background: white;
+    padding: 10px;
+}
+
+.btn-read{
+    background-color: #1ba085;
+    border: #0b2e13;
+    padding: 5px 20px;
+}
+
+object{
+    width: 90%;
+    height: 700px;
+}
+
+/*COMENT FORM*/
+.comment{
+    margin-top: 20px;
+    padding: 10px;
+    background: white;
+}
+
+.comment-form{
+    margin-top: 20px;
+    padding: 10px;
+    background: white;
+}
+
+.comment-form .form-control{
+    height: 70px;
+}
+
+/*CSS FOR SATAUS BOOK*/
+
+.btn-book-status{
+    width: 25px;
+    height: 28px;
+    background: #1c7430;
+    border-top-left-radius: 0px;
+    position: relative;
+    border-bottom-left-radius: 0px;
+}
+
+.btn-book-status::after{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+    top: 11px;
+    right: 7px;
+}
+
+.status-wraper{
+    position: relative;
+    left: 15px;
+    border-radius: 3px;
+    height: 29px;
+}
+
+.status-list{
+    position: absolute;
+    list-style: none;
+    border: 1px solid #6c757d;
+    width: 280px;
+    left: 0;
+    height: auto;
+    border-radius: 4px;
+    background: white;
+    top: 28px;
+    display: none;
+    z-index: 1;
+}
+
+.status-list li{
+    height: 25px;
+    padding-left:25px ;
+}
+
+.status-list li a{
+    color: #1d2124;
+}
+
+.status-list li:hover{
+    background: #e2e6ea;
+}
+
+.status-list li a:hover{
+    text-decoration: none;
+}
+
+.status-header{
+    padding-left: 10px;
+    line-height: 25px;
+}
+
+.status-list li{
+    transition: 1s;
+}
+
+.rate-wrap a{
+
+}
+
+.star{
+    width: 24px;
+}
+
+.star-on{
+    background: yellow;
+}
+
+.star-activated{
+    background: yellow;
+}

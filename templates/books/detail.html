@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load tags %}
+    <div class="container">
+        <div class="row">
+            <div class="col-9">
+                <div class="row">
+                    <div class="content-left">
+                        <div class="row">
+                            <div class="col-5">
+                                <img src="{{ book.photo.url }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-7">
+                                <h3>{{ book.title }}</h3>
+                                <h5>Tác giả: {{ book.author }}</h5>
+                                <h5>Thể loại: {{ book.category }}</h5>
+                                <h5>Ngày phát hành {{ book.release_date }}</h5>
+                                <div><a href="{% url 'books:read' book.slug %} " class="btn btn-primary btn-read">Đọc
+                                    sách</a></div>
+                                <p>{{ book.description }}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Comment form-->
+                <div class="row comment-form">
+                    <div class="col-1" style="padding-right: 0;padding-left: 5px">
+                        <img src="{{ request.user.profile.photo.url }}" alt="" class="img-fluid" style="height: 40px">
+                    </div>
+                    <div class="col-11">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                {{ form.text | addcss:"form-control" }}
+                            </div>
+                            <div class="row" style="border-top: #5a6268 1px solid;margin-top: 10px;padding-top: 10px ">
+                                <input type="submit" value="Đăng" class="btn btn-primary" style="margin-left: 90%">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--List Form-->
+                <div class="comment row">
+                    {% for c in cmts %}
+                        <div class="col-1" style="padding-right: 0;padding-left: 5px;margin-bottom: 10px">
+                            <img src="{{ c.user.profile.photo.url }}" alt="" class="img-fluid" style="height: 60px">
+                        </div>
+                        <div class="col-11">
+                            <div style="padding: -5px">
+                                <a href="">{{ c.user.username }}</a>
+                            </div>
+                            <div style="padding-top: 0">
+                                <p style="margin-bottom: 0">{{ c.text }}</p>
+                            </div>
+                            <div>
+                                {{ c.timestamp|timesince }}
+                            </div>
+                        </div>
+                        {% for r in c.replies.all %}
+                            <div class="col-1"></div>
+                            <div class="col-1" style="padding-right: 0;padding-left: 5px;margin-bottom: 10px">
+                                <img src="{{ r.user.profile.photo.url }}" alt="" class="img-fluid" style="height: 60px">
+                            </div>
+                            <div class="col-10">
+                            <div style="padding: -5px">
+                                <a href="">{{ r.user.username }}</a>
+                            </div>
+                            <div style="padding-top: 0">
+                                <p style="margin-bottom: 0">{{ c.text }}</p>
+                            </div>
+                            <div>
+                                {{ r.timestamp|timesince }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

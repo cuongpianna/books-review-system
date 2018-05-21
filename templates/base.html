@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{%static 'js/pdfobject.js'%}"></script>
+</head>
+<body>
+    <!--Header-->
+    {% block header %}
+        {% include '_include/header.html' %}
+    {% endblock %}
+    <!--end of header-->
+    <!--Block content-->
+    {% block content %}
+    {% endblock %}
+    <!--end content-->
+    {% block script %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-10 list-review-book">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>cover</th>
+                            <th>Tiêu đề</th>
+                            <th>rate</th>
+                            <th>Tác giả</th>
+                            <th>Ngày phát hành</th>
+                            <th>Ngày đăng</th>
+                        </tr>
+                        {% for l in list %}
+                            <tr>
+                                <td><img src="{{ l.book.photo.url }}" alt="" style="width:100px"></td>
+                                <td>{{ l.book.title }}</td>
+                                <td>gggg</td>
+                                <td>{{ l.book.author }}</td>
+                                <td>{{ l.book.release_date }}</td>
+                                <td>{{ l.book.timestamp }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

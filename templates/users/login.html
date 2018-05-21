@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{%block title%}
+{%endblock%}
+
+{% block content %}
+<div class="container" style="margin-top: 80px">
+    <div class="row">
+        <div class="form-register col-6 offset-3">
+            <form action="" method="post">
+                {%load tags%}
+                <div class="row text-center" style="margin-bottom: 0">
+                    <div class="col-12 text-center">
+                        <h3>
+                            Đăng nhập
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="p col-12">
+                        Tài khoản: <span>*</span>
+                    </div>
+                    <div class="col-12">
+                        {{form.username|addcss:"form-control"}}
+                        {%if form.errors.username %}
+                            {{form.errors.username}}
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="p col-12">
+                        Mật khẩu: <span>*</span>
+                    </div>
+                    <div class="col-12">
+                        {{form.password|addcss:"form-control"}}
+
+                        {%if form.errors.password%}
+                        {{form.errors.password}}
+                        {%endif%}
+                    </div>
+                </div>
+                {%csrf_token%}
+                <input type="hidden" name="next" value="{{ next }}" />
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <input type="submit" value="Đăng nhập" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

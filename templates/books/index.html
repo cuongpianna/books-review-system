@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% load filter %}
+    <div class="container">
+        <div class="row info-header">
+            {% for b in books %}
+                <div class="col-4 book-item">
+                    <div class="row book-wrap">
+                        <div class="col-1"></div>
+                        <div class="col-6" style="margin-left: -20px">
+                            <img src="{{ b.photo.url }}" class="img-fluid img-thumbnail thumb" alt="">
+                        </div>
+                        <div class="col-5 book-info">
+                            <h3 class="title">{{ b.title }}</h3>
+                            <h3 class="author">{{ b.author }}</h3>
+
+                        </div>
+                    </div>
+                    <div class="row item-footer">
+                        <div class="col-12">
+                            <div class="book-views">
+                                <div class="row">
+                                    <div class="col-9" style="height: 2px">
+                                        <hr style="width: 100%;height: 2px;color: red;margin: 0">
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="{% url 'books:detail' b.slug %}" class="btn btn-primary book-detail">Chi
+                                            tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6>sss</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9 status-wraper" style="border: 1px solid gray">
+                                    {% if request.user and b.status is not None %}
+                                        <h6 class="status-header">  {{ b | get:request.user }}</h6>
+                                    {% endif %}
+                                    <ul class="status-list">
+                                        <li class="update-status" data-status="1" data-book="{{ b.id }}"><a href="">Chưa
+                                            đọc</a></li>
+                                        <li class="update-status" data-status="2" data-book="{{ b.id }}"><a href="">Đang
+                                            đọc</a></li>
+                                        <li class="update-status" data-status="3" data-book="{{ b.id }}"><a href="">Đã
+                                            đọc</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-book-status"></button>
+                                </div>
+
+                            </div>
+                            <div class="row rate-wrap">
+                                <div class="col-12 text-center">
+                                        <span data-rate="{{ b|ratefilter:request.user }}" data-book-id="{{ b.id }}" class="rate-number"></span>
+                                        <img data-star="1" class="star star-1" src="{% static 'img/star.png' %}"  title="sách viết dở ẹc">
+                                        <img data-star="2" class="star star-2" src="{% static 'img/star.png' %}" style="width: 25px;border: 5px"
+                                             title="sách bình thường">
+                                        <img data-star="3" class="star star-3" src="{% static 'img/star.png' %}" style="width: 25px" title="sách hay">
+                                        <img data-star="4" class="star star-4" src="{% static 'img/star.png' %}" style="width: 25px" title="sách quá hay">
+                                        <img data-star="5" class="star star-5" src="{% static 'img/star.png' %}" style="width: 25px"
+                                             title="quá tuyệt vời">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        jQuery(document).ready(function ($) {
+
+            /*RATE*/
+            var rateNumbers = $('.rate-number');
+            
+
+            rateNumbers.each(function () {
+                console.log($(this).data('rate'));
+                if($(this).data('rate')>=1){
+                    $(this).siblings('.star-1').addClass('star-activated');
+                    $(this).siblings('.star-1').data('status', 'on');
+                    console.log($(this).siblings('.star-1').data('status'));
+                }
+                if($(this).data('rate')>=2){
+                    $(this).siblings('.star-2').addClass('star-activated');
+                    $(this).siblings('.star-2').data('status', 'on');
+                }
+                if($(this).data('rate')>=3){
+                    $(this).siblings('.star-3').addClass('star-activated');
+                    $(this).siblings('.star-3').data('status', 'on');
+                }
+                if($(this).data('rate')>=4){
+                    $(this).siblings('.star-4').addClass('star-activated');
+                    $(this).siblings('.star-4').data('status', 'on');
+                }
+                if($(this).data('rate')>=5){
+                    $(this).siblings('.star-5').addClass('star-activated');
+                    $(this).siblings('.star-5').data('status', 'on');
+                }
+
+            });
+
+            $('.star').hover(function () {
+               $(this).toggleClass('star-on');
+            });
+
+            /*TOGGLE*/
+            $('.btn-book-status').click(function (event) {
+                /* Act on the event */
+                $(this).parent().siblings('.status-wraper').find('.status-list').slideToggle();
+            });
+
+            /*AJAX*/
+            $('.update-status').click(function (event) {
+                /* Act on the event */
+                event.preventDefault();
+                var btn_update = $(this);
+                var textt = $(this).data('status');
+                $.ajax({
+                    url: '{%url 'books:update'%}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        status: $(this).data('status'),
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        book_id: $(this).data('book'),
+                    },
+                })
+                    .done(function (data) {
+                        if (data['not_au']) {
+                            window.location = "{% url 'users:login' %}";
+                        }
+                        else {
+                            console.log("success");
+                            btn_update.parent().siblings('.status-header').text(data['text']);
+                            btn_update.parent().slideUp();
+                        }
+
+                    })
+                    .fail(function () {
+                        console.log("error");
+                    })
+                    .always(function () {
+                        console.log("complete");
+                    });
+
+            });
+
+            /*ajax for update the book's rate*/
+
+            $('.star').click(function(event) {
+                /* Act on the event */
+                event.preventDefault();
+                var img = $(this);
+                var book_id = parseInt($(this).siblings('.rate-number').data('book-id'));
+                $.ajax({
+                    url: "book/"+book_id+"/update-rate",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        status: $(this).data('status'),
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        book_id : $(this).siblings('.rate-number').data('book-id'),
+                        star: $(this).data('star'),
+                },
+                })
+                .done(function() {
+                    console.log("success");
+                    if(img.data('status')=="on"){
+                        var star = img.data('star');
+                        var old_star = img.siblings('.rate-number').data('rate');
+                        while(old_star>star){
+                            img.siblings('.star-'+old_star).removeClass('star-activated');
+                            img.siblings('.star-'+old_star).data('status','off');
+                            console.log(img.siblings('.star-'+old_star).data('status'));
+                            old_star = old_star-1;
+                        }
+                    }
+                    else{
+                        var star = img.data('star');
+                        var old_star = img.siblings('.rate-number').data('rate');
+                        while(old_star<star){
+                            img.siblings('.star-'+old_star).addClass('star-activated');
+                            img.siblings('.star-'+old_star).data('status','on');
+                            old_star = old_star+1;
+                        }
+
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+                
+            });
+        });
+    </script>
+{% endblock %}
