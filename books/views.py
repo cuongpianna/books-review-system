@@ -5,6 +5,7 @@ from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.db.models import Q
 
 # Create your views here.
 from .models import Book,Comment,Status,Rate
@@ -141,6 +142,13 @@ def update_rate(request,id):
     except:
         book = None
     return JsonResponse({'status': 's'})
+
+def search(request):
+    query = request.GET.get('q')
+
+    results = Book.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(title__icontains=query))
+
+    return render(request,'books/search.html',{'results':results})
 
 
 
