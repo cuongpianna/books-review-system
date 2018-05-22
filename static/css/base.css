@@ -229,3 +229,19 @@ object{
 .star-activated{
     background: yellow;
 }
+
+/*Search*/
+.btn-search{
+    position: relative;
+}
+
+#search-results{
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 1px solid red;
+    left: -308px;
+    top: 37px;
+    z-index: 1;
+
+}
