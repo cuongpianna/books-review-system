@@ -1,6 +1,6 @@
 from _threading_local import local
 
-from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect
+from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect,render_to_response
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -143,12 +143,25 @@ def update_rate(request,id):
         book = None
     return JsonResponse({'status': 's'})
 
+def ajax_search(request):
+
+    if  request.is_ajax:
+        query = request.GET.get('q')
+        search_text = request.GET.get('search_text')
+
+        results = Book.objects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query) | Q(title__icontains=query))
+
+        return render_to_response('books/ajax_search.html',{'results':results})
+
 def search(request):
     query = request.GET.get('q')
 
-    results = Book.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(title__icontains=query))
+    results = Book.objects.filter(
+        Q(title__icontains=query) | Q(description__icontains=query) | Q(title__icontains=query))
 
-    return render(request,'books/search.html',{'results':results})
+    return render(request, 'books/search.html', {'results': results})
+
 
 
 
